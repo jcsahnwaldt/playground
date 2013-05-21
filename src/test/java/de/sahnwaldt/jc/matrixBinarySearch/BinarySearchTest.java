@@ -2,9 +2,11 @@ package de.sahnwaldt.jc.matrixBinarySearch;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -308,9 +310,65 @@ public class BinarySearchTest {
     checkSearch(matrix, 6, d(1,1,1,1,1));
     checkSearch(matrix, 7);
   }
+  
+  /**
+   * Test matrix with 12 ^ 6 = 2,985,984 elements.
+   */
+  @Test
+  public void testHuge() {
+    
+    long nanos;
+    
+    nanos = System.nanoTime();
+        
+    int max = 67; // max value 6 * 11 + 1
+    // add two elements: check that 0 and 68 are not in matrix
+    List<Set<IntList>> positions = new ArrayList<>(max + 2);
+    for (int val = 0; val < max + 2; val++) {
+      positions.add(new HashSet<IntList>());
+    }
+    
+    Integer[] values = new Integer[2985984];
+    for (int d0 = 0; d0 < 12; d0++) {
+      for (int d1 = 0; d1 < 12; d1++) {
+        for (int d2 = 0; d2 < 12; d2++) {
+          for (int d3 = 0; d3 < 12; d3++) {
+            for (int d4 = 0; d4 < 12; d4++) {
+              for (int d5 = 0; d5 < 12; d5++) {
+                int index = (((((d0)*12+d1)*12+d2)*12+d3)*12+d4)*12+d5;
+                int val = d0+d1+d2+d3+d4+d5+1;
+                values[index] = val;
+                positions.get(val).add(d(d0,d1,d2,d3,d4,d5));
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    Matrix<Integer> matrix = new ArrayMatrix<>(d(12,12,12,12,12,12), values);
+    
+    nanos = System.nanoTime() - nanos;
+    
+    System.out.println("building: "+(nanos / 1000000000F)+" seconds");
+
+    nanos = System.nanoTime();
+    
+    for (int val = 0; val < max + 2; val++) {
+      checkSearch(matrix, val, positions.get(val));
+    }
+    
+    nanos = System.nanoTime() - nanos;
+    
+    System.out.println("testing: "+(nanos / 1000000000F)+" seconds");
+  }
 
   private <T> void checkSearch(Matrix<T> matrix, T val, IntList ... results) {
-    assertEquals(new HashSet<>(list(results)), new HashSet<>(new BinarySearch<>(matrix, val).search()));
+    checkSearch(matrix, val, new HashSet<>(list(results)));
+  }
+  
+  private <T> void checkSearch(Matrix<T> matrix, T val, Set<IntList> results) {
+    assertEquals(results, new HashSet<>(new BinarySearch<>(matrix, val).search()));
   }
   
   private static IntList d(int ... array) {
