@@ -1,11 +1,11 @@
 package de.sahnwaldt.jc.matrixBinarySearch;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Comparator;
+import java.util.List;
 
-public class BinarySearch<T> {
+public class BinarySearch<T>
+{
   
   private static final Comparator<Comparable<Object>> NATURAL_ORDER =
   new Comparator<Comparable<Object>>() {
@@ -22,13 +22,13 @@ public class BinarySearch<T> {
   
   private final Matrix<T> matrix;
   
-  private final int[] size;
+  private final Dimensions size;
   
   private final T val;
   
   private final Comparator<? super T> comp;
   
-  private List<int[]> found;
+  private List<Dimensions> found;
   
   /**
    * Use default comparator.
@@ -58,11 +58,11 @@ public class BinarySearch<T> {
   /**
    * search whole matrix
    */
-  public List<int[]> search() {
+  public List<Dimensions> search() {
     
-    int[] from = new int[size.length]; // all zero
-    int[] to = new int[size.length];
-    for (int d = 0; d < to.length; d++) to[d] = size[d] - 1; // highest index
+    Dimensions from = new ArrayDimensions(size.count()); // all zero
+    Dimensions to = new ArrayDimensions(size.count());
+    for (int d = 0; d < to.count(); d++) to.set(d, size.get(d)-1); // highest index
     
     found = new ArrayList<>();
     doSearch(from, to);
@@ -74,58 +74,60 @@ public class BinarySearch<T> {
    * @param min position of first element, inclusive
    * @param max position of last element, inclusive
    */
-  public List<int[]> search(int[] min, int[] max) {
+  public List<Dimensions> search(Dimensions min, Dimensions max) {
     
-    if (min.length != size.length) throw new IllegalArgumentException("expected "+size.length+" dimensions for min position, got "+min.length);
-    if (max.length != size.length) throw new IllegalArgumentException("expected "+size.length+" dimensions for max position, got "+min.length);
-    for (int d = 0; d < size.length; d++) {
-      if (min[d] < 0 || min[d] >= size[d]) throw new IllegalArgumentException("dimension "+d+": expected index 0.."+(size[d]-1)+" for min position, got "+min[d]);
-      if (max[d] < 0 || max[d] >= size[d]) throw new IllegalArgumentException("dimension "+d+": expected index 0.."+(size[d]-1)+" for max position, got "+max[d]);
-      if (min[d] > max[d]) throw new IllegalArgumentException("dimension "+d+": index "+min[d]+" for min position is greater than index "+max[d]+" for max position");
+    if (min.count() != size.count()) throw new IllegalArgumentException("expected "+size.count()+" dimensions for min position, got "+min.count());
+    if (max.count() != size.count()) throw new IllegalArgumentException("expected "+size.count()+" dimensions for max position, got "+min.count());
+    for (int d = 0; d < size.count(); d++) {
+      if (min.get(d) < 0 || min.get(d) >= size.get(d)) throw new IllegalArgumentException("dimension "+d+": expected index 0.."+(size.get(d)-1)+" for min position, got "+min.get(d));
+      if (max.get(d) < 0 || max.get(d) >= size.get(d)) throw new IllegalArgumentException("dimension "+d+": expected index 0.."+(size.get(d)-1)+" for max position, got "+max.get(d));
+      if (min.get(d) > max.get(d)) throw new IllegalArgumentException("dimension "+d+": index "+min.get(d)+" for min position is greater than index "+max.get(d)+" for max position");
     }
     
     found = new ArrayList<>();
-    doSearch(min, max);
+    // make modifiable copies of dimensions
+    doSearch(new ArrayDimensions(min, true), new ArrayDimensions(max, true));
     return found;
   }
   
-  private void doSearch(int[] min, int[] max) {
-    if (Arrays.equals(min, max)) {
-      if (compare(min, val) == 0) found.add(min);
+  private void doSearch(Dimensions min, Dimensions max) {
+    if (min.equals(max)) {
+      // make immutable copy
+      if (compare(min, val) == 0) found.add(new ArrayDimensions(min, false));
     }
     // TODO: for some segments, we do some comparisons twice
     else if (compare(min, val) <= 0 && compare(max, val) >= 0) {
-      split(min, max, size.length);
+      split(min, max, size.count());
     }
     // else val is not in this segment
   }
   
-  private void split(int[] min, int[] max, int dim) {
+  private void split(Dimensions min, Dimensions max, int dim) {
     if (dim == 0) {
       doSearch(min, max);
     }
     else {
       --dim;
-      int lo = min[dim];
-      int hi = max[dim];
+      int lo = min.get(dim);
+      int hi = max.get(dim);
       if (lo == hi) {
         split(min, max, dim);
       }
       else {
         int m = (lo + hi) >>> 1;
         
-        max[dim] = m;
+        max.set(dim, m);
         split(min, max, dim);
-        max[dim] = hi;
+        max.set(dim, hi);
         
-        min[dim] = m + 1;
+        min.set(dim, m + 1);
         split(min, max, dim);
-        min[dim] = lo;
+        min.set(dim, lo);
       }
     }
   }
       
-  private int compare(int[] pos, T val) {
+  private int compare(Dimensions pos, T val) {
     return comp.compare(matrix.get(pos), val);
   }
 

@@ -1,10 +1,11 @@
 package de.sahnwaldt.jc.matrixBinarySearch;
 
-import java.util.Arrays;
 
-public class ArrayMatrix<T> {
+public class ArrayMatrix<T>
+implements Matrix<T>
+{
 
-  private final int[] size;
+  private final Dimensions size;
   
   private final T[] values;
   
@@ -12,14 +13,14 @@ public class ArrayMatrix<T> {
    * @param size size of matrix in each dimension
    * @param values
    */
-  public ArrayMatrix(int[] size, T[] values) {
+  public ArrayMatrix(Dimensions size, T[] values) {
     
     int total = 1;
-    for (int d = 0; d < size.length; d++) {
-      if (size[d] <= 0) throw new IllegalArgumentException("expected positive sizes, got "+Arrays.toString(size));
-      total *= size[d];
+    for (int d = 0; d < size.count(); d++) {
+      if (size.get(d) <= 0) throw new IllegalArgumentException("expected positive sizes, got "+size);
+      total *= size.get(d);
     }
-    if (total != values.length) throw new IllegalArgumentException("expected "+total+" elements for "+Arrays.toString(size)+" matrix, got "+values.length);
+    if (total != values.length) throw new IllegalArgumentException("expected "+total+" elements for "+size+" matrix, got "+values.length);
     
     this.size = size;
     this.values = values;
@@ -28,25 +29,25 @@ public class ArrayMatrix<T> {
   /**
    * @return size of matrix in each dimension
    */
-  public int[] size() {
-    return Arrays.copyOf(size, size.length);
+  public Dimensions size() {
+    return size;
   }
   
   /**
    * @param pos index in each dimension
    * @return value at given position
    */
-  public T get(int[] pos) {
+  public T get(Dimensions pos) {
     return values[index(pos)];
   }
   
-  private int index(int[] pos) {
+  private int index(Dimensions pos) {
     int index = 0;
-    if (pos.length != size.length) throw new IllegalArgumentException("expected "+size.length+" dimensions, got "+pos.length);
-    for (int d = 0; d < pos.length; d++) {
-      if (pos[d] < 0 || pos[d] >= size[d]) throw new IllegalArgumentException("expected index 0.."+(size[d]-1)+" for dimension "+d+", got "+pos[d]);
-      if (d > 0) index *= size[d];
-      index += pos[d];
+    if (pos.count() != size.count()) throw new IllegalArgumentException("expected "+size.count()+" dimensions, got "+pos.count());
+    for (int d = 0; d < pos.count(); d++) {
+      if (pos.get(d) < 0 || pos.get(d) >= size.get(d)) throw new IllegalArgumentException("expected index 0.."+(size.get(d)-1)+" for dimension "+d+", got "+pos.get(d));
+      if (d > 0) index *= size.get(d);
+      index += pos.get(d);
     }
     return index; 
   }
