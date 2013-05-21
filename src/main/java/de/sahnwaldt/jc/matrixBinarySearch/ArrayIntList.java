@@ -20,6 +20,15 @@ extends AbstractIntList
     this.mutable = mutable;
   }
   
+  public ArrayIntList(int ... array) {
+    this(false, array);
+  }
+  
+  public ArrayIntList(boolean mutable, int ... array) {
+    this.array = array;
+    this.mutable = mutable;
+  }
+  
   @Override
   public int size() {
     return array.length;
