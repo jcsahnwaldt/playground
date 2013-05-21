@@ -22,13 +22,15 @@ public class BinarySearch<T>
   
   private final Matrix<T> matrix;
   
-  private final Dimensions size;
+  private final IntList zero;
+  
+  private final IntList size;
   
   private final T val;
   
   private final Comparator<? super T> comp;
   
-  private List<Dimensions> found;
+  private List<IntList> found;
   
   /**
    * Use default comparator.
@@ -51,6 +53,7 @@ public class BinarySearch<T>
     
     this.matrix = matrix;
     this.size = matrix.size();
+    this.zero = new ArrayIntList(size.size(), false);
     this.val = val;
     this.comp = comp;
   }
@@ -58,11 +61,12 @@ public class BinarySearch<T>
   /**
    * search whole matrix
    */
-  public List<Dimensions> search() {
+  public List<IntList> search() {
     
-    Dimensions from = new ArrayDimensions(size.count()); // all zero
-    Dimensions to = new ArrayDimensions(size.count());
-    for (int d = 0; d < to.count(); d++) to.set(d, size.get(d)-1); // highest index
+    IntList from = new ArrayIntList(zero, true); // all zero
+    
+    IntList to = new ArrayIntList(zero.size(), true);
+    for (int d = 0; d < to.size(); d++) to.set(d, size.get(d) - 1); // highest index
     
     found = new ArrayList<>();
     doSearch(from, to);
@@ -74,35 +78,31 @@ public class BinarySearch<T>
    * @param min position of first element, inclusive
    * @param max position of last element, inclusive
    */
-  public List<Dimensions> search(Dimensions min, Dimensions max) {
+  public List<IntList> search(IntList min, IntList max) {
     
-    if (min.count() != size.count()) throw new IllegalArgumentException("expected "+size.count()+" dimensions for min position, got "+min.count());
-    if (max.count() != size.count()) throw new IllegalArgumentException("expected "+size.count()+" dimensions for max position, got "+min.count());
-    for (int d = 0; d < size.count(); d++) {
-      if (min.get(d) < 0 || min.get(d) >= size.get(d)) throw new IllegalArgumentException("dimension "+d+": expected index 0.."+(size.get(d)-1)+" for min position, got "+min.get(d));
-      if (max.get(d) < 0 || max.get(d) >= size.get(d)) throw new IllegalArgumentException("dimension "+d+": expected index 0.."+(size.get(d)-1)+" for max position, got "+max.get(d));
-      if (min.get(d) > max.get(d)) throw new IllegalArgumentException("dimension "+d+": index "+min.get(d)+" for min position is greater than index "+max.get(d)+" for max position");
-    }
-    
+    if (min.compareAny(zero, -1) || ! min.compareAll(size, -1)) throw new IllegalArgumentException("expected position between "+zero+" (inclusive) and "+size+" (exclusive), got "+min);
+    if (max.compareAny(zero, -1) || ! max.compareAll(size, -1)) throw new IllegalArgumentException("expected position between "+zero+" (inclusive) and "+size+" (exclusive), got "+max);
+    if (min.compareAny(max, +1)) throw new IllegalArgumentException("min position "+min+" is partly greater than max position "+max);
+
     found = new ArrayList<>();
-    // make modifiable copies of dimensions
-    doSearch(new ArrayDimensions(min, true), new ArrayDimensions(max, true));
+    // make modifiable copies of positions
+    doSearch(new ArrayIntList(min, true), new ArrayIntList(max, true));
     return found;
   }
   
-  private void doSearch(Dimensions min, Dimensions max) {
+  private void doSearch(IntList min, IntList max) {
     if (min.equals(max)) {
       // make immutable copy
-      if (compare(min, val) == 0) found.add(new ArrayDimensions(min, false));
+      if (compare(min, val) == 0) found.add(new ArrayIntList(min, false));
     }
     // TODO: for some segments, we do some comparisons twice
     else if (compare(min, val) <= 0 && compare(max, val) >= 0) {
-      split(min, max, size.count());
+      split(min, max, size.size());
     }
     // else val is not in this segment
   }
   
-  private void split(Dimensions min, Dimensions max, int dim) {
+  private void split(IntList min, IntList max, int dim) {
     if (dim == 0) {
       doSearch(min, max);
     }
@@ -127,7 +127,7 @@ public class BinarySearch<T>
     }
   }
       
-  private int compare(Dimensions pos, T val) {
+  private int compare(IntList pos, T val) {
     return comp.compare(matrix.get(pos), val);
   }
 

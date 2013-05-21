@@ -5,12 +5,12 @@ public interface Matrix<T>
   /**
    * @return size of matrix in each dimension
    */
-  public Dimensions size();
+  public IntList size();
   
   /**
    * @param pos index in each dimension. must have same number of dimensions as size.
    * @return value at given position
    */
-  public T get(Dimensions pos);
+  public T get(IntList pos);
 
 }
