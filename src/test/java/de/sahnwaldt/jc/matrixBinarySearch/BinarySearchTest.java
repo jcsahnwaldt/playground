@@ -1,6 +1,6 @@
 package de.sahnwaldt.jc.matrixBinarySearch;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -164,10 +164,10 @@ public class BinarySearchTest {
     checkSearch(matrix, 7);
     
     Integer[] _3_4 = {
-        1,2,3,4,
-        2,3,4,5,
-        3,4,5,6
-      };
+      1,2,3,4,
+      2,3,4,5,
+      3,4,5,6
+    };
       
     matrix = new ArrayMatrix<>(d(3,4), _3_4);
     
@@ -181,15 +181,15 @@ public class BinarySearchTest {
     checkSearch(matrix, 7);
     
     Integer[] _3_2_2 = {
-        1,2,
-        2,3,
-        
-        2,3,
-        3,4,
-        
-        3,4,
-        4,5
-      };
+      1,2,
+      2,3,
+      
+      2,3,
+      3,4,
+      
+      3,4,
+      4,5
+    };
       
     matrix = new ArrayMatrix<>(d(3,2,2), _3_2_2);
     
@@ -202,14 +202,14 @@ public class BinarySearchTest {
     checkSearch(matrix, 6);
     
     Integer[] _2_3_2 = {
-        1,2,
-        2,3,
-        3,4,
-        
-        2,3,
-        3,4,
-        4,5
-      };
+      1,2,
+      2,3,
+      3,4,
+      
+      2,3,
+      3,4,
+      4,5
+    };
       
     matrix = new ArrayMatrix<>(d(2,3,2), _2_3_2);
     
@@ -222,12 +222,12 @@ public class BinarySearchTest {
     checkSearch(matrix, 6);
     
     Integer[] _2_2_3 = {
-        1,2,3,
-        2,3,4,
-        
-        2,3,4,
-        3,4,5
-      };
+      1,2,3,
+      2,3,4,
+      
+      2,3,4,
+      3,4,5
+    };
       
     matrix = new ArrayMatrix<>(d(2,2,3), _2_2_3);
     
@@ -241,21 +241,21 @@ public class BinarySearchTest {
     
     // four dimensions
     Integer[] _2_2_2_2 = {
-        // cube 0
-        1,2,
-        2,3,
-        
-        2,3,
-        3,4,
-        
-        // cube 1 (> cube 0)
-        2,3,
-        3,4,
-        
-        3,4,
-        4,5
-      };
+      // cube 0
+      1,2,
+      2,3,
       
+      2,3,
+      3,4,
+      
+      // cube 1 (> cube 0)
+      2,3,
+      3,4,
+      
+      3,4,
+      4,5
+    };
+    
     matrix = new ArrayMatrix<>(d(2,2,2,2), _2_2_2_2);
     
     checkSearch(matrix, 0);
@@ -268,34 +268,34 @@ public class BinarySearchTest {
 
     // five dimensions
     Integer[] _2_2_2_2_2 = {
-        // cube 0,0
-        1,2,
-        2,3,
-        
-        2,3,
-        3,4,
-        
-        // cube 0,1 (> cube 0,0)
-        2,3,
-        3,4,
-        
-        3,4,
-        4,5,
-        
-        // cube 1,0 (> cube 0,0)
-        2,3,
-        3,4,
-        
-        3,4,
-        4,5,
-        
-        // cube 1,1 (> cube 0,1 & 1,0)
-        3,4,
-        4,5,
-        
-        4,5,
-        5,6
-      };
+      // cube 0,0
+      1,2,
+      2,3,
+      
+      2,3,
+      3,4,
+      
+      // cube 0,1 (> cube 0,0)
+      2,3,
+      3,4,
+      
+      3,4,
+      4,5,
+      
+      // cube 1,0 (> cube 0,0)
+      2,3,
+      3,4,
+      
+      3,4,
+      4,5,
+      
+      // cube 1,1 (> cube 0,1 & 1,0)
+      3,4,
+      4,5,
+      
+      4,5,
+      5,6
+    };
       
     matrix = new ArrayMatrix<>(d(2,2,2,2,2), _2_2_2_2_2);
     
