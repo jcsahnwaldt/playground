@@ -102,8 +102,14 @@ public class BinarySearch<T>
     // else val is not in this segment
   }
   
+  /**
+   * @param min will be modified temporarily
+   * @param max will be modified temporarily
+   * @param dim one plus dimension that should be split into two segments
+   */
   private void split(IntList min, IntList max, int dim) {
     if (dim == 0) {
+      // processed all dimensions - search this segment
       doSearch(min, max);
     }
     else {
@@ -111,9 +117,11 @@ public class BinarySearch<T>
       int lo = min.get(dim);
       int hi = max.get(dim);
       if (lo == hi) {
+        // can't split this dimension any thinner, it's one element thick. check next dimension.
         split(min, max, dim);
       }
       else {
+        // split next dimension into two segments
         int m = (lo + hi) >>> 1;
         
         // temporarily use new max position
