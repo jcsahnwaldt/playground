@@ -63,7 +63,7 @@ public class BinarySearch<T>
    */
   public List<IntList> search() {
     
-    IntList from = new ArrayIntList(zero, true); // all zero
+    IntList from = new ArrayIntList(zero.size(), true); // all zero
     
     IntList to = new ArrayIntList(zero.size(), true);
     for (int d = 0; d < to.size(); d++) to.set(d, size.get(d) - 1); // highest index
@@ -80,8 +80,8 @@ public class BinarySearch<T>
    */
   public List<IntList> search(IntList min, IntList max) {
     
-    if (min.compareAny(zero, -1) || ! min.compareAll(size, -1)) throw new IllegalArgumentException("expected position between "+zero+" (inclusive) and "+size+" (exclusive), got "+min);
-    if (max.compareAny(zero, -1) || ! max.compareAll(size, -1)) throw new IllegalArgumentException("expected position between "+zero+" (inclusive) and "+size+" (exclusive), got "+max);
+    if (min.compareAny(zero, -1) || ! min.compareAll(size, -1)) throw new IllegalArgumentException("expected min position between "+zero+" (inclusive) and "+size+" (exclusive), got "+min);
+    if (max.compareAny(zero, -1) || ! max.compareAll(size, -1)) throw new IllegalArgumentException("expected max position between "+zero+" (inclusive) and "+size+" (exclusive), got "+max);
     if (min.compareAny(max, +1)) throw new IllegalArgumentException("min position "+min+" is partly greater than max position "+max);
 
     found = new ArrayList<>();
@@ -92,7 +92,7 @@ public class BinarySearch<T>
   
   private void doSearch(IntList min, IntList max) {
     if (min.equals(max)) {
-      // make immutable copy
+      // remember immutable copy of position
       if (compare(min, val) == 0) found.add(new ArrayIntList(min, false));
     }
     // TODO: for some segments, we do some comparisons twice
@@ -116,10 +116,12 @@ public class BinarySearch<T>
       else {
         int m = (lo + hi) >>> 1;
         
+        // temporarily use new max position
         max.set(dim, m);
         split(min, max, dim);
         max.set(dim, hi);
         
+        // temporarily use new min position
         min.set(dim, m + 1);
         split(min, max, dim);
         min.set(dim, lo);
