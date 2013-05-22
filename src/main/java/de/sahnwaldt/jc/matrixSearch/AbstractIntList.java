@@ -1,4 +1,4 @@
-package de.sahnwaldt.jc.matrixBinarySearch;
+package de.sahnwaldt.jc.matrixSearch;
 
 
 public abstract class AbstractIntList
