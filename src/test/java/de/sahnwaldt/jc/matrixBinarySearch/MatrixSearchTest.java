@@ -10,7 +10,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
-public class BinarySearchTest {
+public class MatrixSearchTest {
 
   @Test
   public void testSearchSingle() {
@@ -368,7 +368,7 @@ public class BinarySearchTest {
   }
   
   private <T> void checkSearch(Matrix<T> matrix, T val, Set<IntList> results) {
-    checkSearch(new BinarySearch<>(matrix, val), results);
+    checkSearch(new BinaryMatrixSearch<>(matrix, val), results);
   }
   
   private <T> void checkSearch(MatrixSearch<T> search, Set<IntList> results) {

@@ -2,7 +2,7 @@ package de.sahnwaldt.jc.matrixBinarySearch;
 
 import java.util.Comparator;
 
-public class BinarySearch<T>
+public class BinaryMatrixSearch<T>
 extends AbstractMatrixSearch<T>
 {
   
@@ -26,7 +26,7 @@ extends AbstractMatrixSearch<T>
    * @param matrix
    * @param val
    */
-  public BinarySearch(Matrix<T> matrix, T val) {
+  public BinaryMatrixSearch(Matrix<T> matrix, T val) {
     this(matrix, val, null);
   }
   
@@ -35,7 +35,7 @@ extends AbstractMatrixSearch<T>
    * @param val must not be null
    * @param comp if null, use default comparator
    */
-  public BinarySearch(Matrix<T> matrix, T val, Comparator<? super T> comp) {
+  public BinaryMatrixSearch(Matrix<T> matrix, T val, Comparator<? super T> comp) {
     super(matrix, val);
     if (comp == null) comp = naturalOrder();
     this.comp = comp;

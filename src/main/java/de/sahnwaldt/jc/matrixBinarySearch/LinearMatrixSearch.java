@@ -1,14 +1,14 @@
 package de.sahnwaldt.jc.matrixBinarySearch;
 
 
-public class LinearSearch<T>
+public class LinearMatrixSearch<T>
 extends AbstractMatrixSearch<T>
 {
   /**
    * @param matrix must not be null
    * @param val must not be null
    */
-  public LinearSearch(Matrix<T> matrix, T val) {
+  public LinearMatrixSearch(Matrix<T> matrix, T val) {
     super(matrix, val);
   }
   
