@@ -32,6 +32,7 @@ implements Matrix<T>
   /**
    * @return size of matrix in each dimension
    */
+  @Override
   public IntList size() {
     return size;
   }
@@ -40,6 +41,7 @@ implements Matrix<T>
    * @param pos index in each dimension
    * @return value at given position
    */
+  @Override
   public T get(IntList pos) {
     return values[index(pos)];
   }

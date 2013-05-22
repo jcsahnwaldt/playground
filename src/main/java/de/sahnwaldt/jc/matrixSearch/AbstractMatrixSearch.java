@@ -33,6 +33,7 @@ implements MatrixSearch<T>
   /**
    * search whole matrix
    */
+  @Override
   public Collection<IntList> search() {
     
     IntList from = new ArrayIntList(zero.size(), true); // all zero
@@ -50,6 +51,7 @@ implements MatrixSearch<T>
    * @param min position of first element, inclusive
    * @param max position of last element, inclusive
    */
+  @Override
   public Collection<IntList> search(IntList min, IntList max) {
     
     if (min.compareAny(zero, -1) || ! min.compareAll(size, -1)) throw new IllegalArgumentException("expected min position between "+zero+" (inclusive) and "+size+" (exclusive), got "+min);
