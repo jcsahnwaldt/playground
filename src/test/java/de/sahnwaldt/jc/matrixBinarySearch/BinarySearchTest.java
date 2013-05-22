@@ -350,7 +350,7 @@ public class BinarySearchTest {
     
     nanos = System.nanoTime() - nanos;
     
-    System.out.println("building: "+(nanos / 1000000000F)+" seconds");
+    System.out.println("building matrix: "+(nanos / 1000000000F)+" seconds");
 
     nanos = System.nanoTime();
     
@@ -360,7 +360,7 @@ public class BinarySearchTest {
     
     nanos = System.nanoTime() - nanos;
     
-    System.out.println("testing: "+(nanos / 1000000000F)+" seconds");
+    System.out.println("binary search: "+(nanos / 1000000000F)+" seconds");
   }
 
   private <T> void checkSearch(Matrix<T> matrix, T val, IntList ... results) {
@@ -368,7 +368,11 @@ public class BinarySearchTest {
   }
   
   private <T> void checkSearch(Matrix<T> matrix, T val, Set<IntList> results) {
-    assertEquals(results, new HashSet<>(new BinarySearch<>(matrix, val).search()));
+    checkSearch(new BinarySearch<>(matrix, val), results);
+  }
+  
+  private <T> void checkSearch(MatrixSearch<T> search, Set<IntList> results) {
+    assertEquals(results, new HashSet<>(search.search()));
   }
   
   private static IntList d(int ... array) {
