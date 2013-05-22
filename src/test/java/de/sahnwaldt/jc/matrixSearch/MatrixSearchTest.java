@@ -349,26 +349,25 @@ public class MatrixSearchTest {
     Matrix<Integer> matrix = new ArrayMatrix<>(d(12,12,12,12,12,12), values);
     
     nanos = System.nanoTime() - nanos;
-    
     System.out.println("building matrix: "+(nanos / 1000000000F)+" seconds");
 
     nanos = System.nanoTime();
-    
     for (int val = 0; val < max + 2; val++) {
-      checkSearch(matrix, val, positions.get(val));
+      checkSearch(new BinaryMatrixSearch<>(matrix, val), positions.get(val));
     }
-    
     nanos = System.nanoTime() - nanos;
-    
     System.out.println("binary search: "+(nanos / 1000000000F)+" seconds");
+    
+    nanos = System.nanoTime();
+    for (int val = 0; val < max + 2; val++) {
+      checkSearch(new LinearMatrixSearch<>(matrix, val), positions.get(val));
+    }
+    nanos = System.nanoTime() - nanos;
+    System.out.println("linear search: "+(nanos / 1000000000F)+" seconds");
   }
 
   private <T> void checkSearch(Matrix<T> matrix, T val, IntList ... results) {
-    checkSearch(matrix, val, new HashSet<>(list(results)));
-  }
-  
-  private <T> void checkSearch(Matrix<T> matrix, T val, Set<IntList> results) {
-    checkSearch(new BinaryMatrixSearch<>(matrix, val), results);
+    checkSearch(new BinaryMatrixSearch<>(matrix, val), new HashSet<>(list(results)));
   }
   
   private <T> void checkSearch(MatrixSearch<T> search, Set<IntList> results) {

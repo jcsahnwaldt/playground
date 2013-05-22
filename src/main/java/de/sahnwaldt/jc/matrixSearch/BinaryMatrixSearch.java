@@ -44,8 +44,10 @@ extends AbstractMatrixSearch<T>
   @Override
   protected void doSearch(IntList min, IntList max) {
     if (min.equals(max)) {
-      // remember immutable copy of position
-      if (compare(min, val) == 0) found.add(new ArrayIntList(min, false));
+      if (compare(min, val) == 0) {
+        // remember immutable copy of position
+        found.add(new ArrayIntList(min, false));
+      }
     }
     // TODO: for some segments, we do some comparisons twice
     else if (compare(min, val) <= 0 && compare(max, val) >= 0) {
