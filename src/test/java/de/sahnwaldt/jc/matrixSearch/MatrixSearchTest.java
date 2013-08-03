@@ -366,11 +366,11 @@ public class MatrixSearchTest {
     System.out.println("linear search: "+(nanos / 1000000000F)+" seconds");
   }
 
-  private <T> void checkSearch(Matrix<T> matrix, T val, IntList ... results) {
+  private static <T> void checkSearch(Matrix<T> matrix, T val, IntList ... results) {
     checkSearch(new BinaryMatrixSearch<>(matrix, val), new HashSet<>(list(results)));
   }
   
-  private <T> void checkSearch(MatrixSearch<T> search, Set<IntList> results) {
+  private static <T> void checkSearch(MatrixSearch<T> search, Set<IntList> results) {
     assertEquals(results, new HashSet<>(search.search()));
   }
   
