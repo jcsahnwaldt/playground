@@ -17,15 +17,6 @@ Ich freue mich über Verbesserungsvorschläge - am besten als
 &bull; <b><i>einmal</i></b> bedeutet, dass jeder der Punkte genau einmal berührt wird<br>
 &bull; <b><i>ähnlich</i></b> bedeutet, dass zwei Lösungen die gleichen Geraden verwenden<br>
 <script>
-
-function br() {
-  document.body.appendChild(document.createElement('br'));
-}
-
-function write(text) {
-  document.body.appendChild(document.createTextNode(text));
-}
-
 function solution(text, width, height, x0, y0, path) {
   const v = document.createElement('canvas');
   document.body.appendChild(v);
