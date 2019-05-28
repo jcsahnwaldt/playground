@@ -5,9 +5,13 @@
   <meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 </head>
 <body style="font-family: sans-serif">
-<h2>
+<h3>
 Lösungen für <a href="https://www.spiegel.de/karriere/16-punkte-verbinden-auf-einen-streich-raetsel-der-woche-a-1269164.html">Spiegel Online Rätsel der Woche "16 auf einen Streich"</a>
-</h2xs>
+</h3>
+&bull; <b><i>offen</i></b> bedeutet, dass der Linienzug an unterschiedlichen Positionen startet und endet<br>
+&bull; <b><i>geschlossen</i></b> bedeutet, dass der Linienzug an der selben Position startet und endet<br>
+&bull; <b><i>mehrmals</i></b> bedeutet, dass manche Punkte mehrmals berührt werden<br>
+&bull; <b><i>einmal</i></b> bedeutet, dass jeder der Punkte genau einmal berührt wird<br>
 <script>
 
 function br() {
@@ -18,7 +22,7 @@ function write(text) {
   document.body.appendChild(document.createTextNode(text));
 }
 
-function solution(name, width, height, x0, y0, path) {
+function solution(text, width, height, x0, y0, path) {
   const v = document.createElement('canvas');
   document.body.appendChild(v);
   v.width = width;
@@ -30,7 +34,12 @@ function solution(name, width, height, x0, y0, path) {
   c.fillStyle = 'black';
   c.font = '16px sans-serif';
   c.textAlign = 'center';
-  c.fillText(name, width / 2, 16);
+  if (! Array.isArray(text)) text = [text];
+  let y = 16;
+  for (let line of text) {
+    c.fillText(line, width / 2, y);
+    y += 16;
+  }
 
   c.fillStyle = '#80C0F0';
   for (let i = 0; i < 4; i++) {
@@ -57,9 +66,22 @@ function solution(name, width, height, x0, y0, path) {
   c.stroke();
 }
 
-solution('Holger Dambeck', 240, 280, 60, 120, [[2,1], [0,-1], [0,2], [3,2], [3,-1], [-1,3], [3,3]]);
-solution('Holger Dambeck', 240, 280, 60, 120, [[2,2], [0,2], [0,-1], [3,2], [3,-1], [-1,3], [3,3]]);
-solution('Holger Dambeck', 240, 280, 60, 120, [[2,2], [0,-2], [0,3], [3,0], [3,3], [-1,3], [2,0]]);
+solution(['Holger Dambeck 1', 'offen, mehrmals'], 240, 240, 60, 80, [[5/2,3/2], [0,-1], [0,2], [3,2], [3,-1], [-1,3], [4,3]]);
+solution(['Holger Dambeck 2', 'offen, mehrmals'], 240, 240, 60, 80, [[5/2,2], [0,2], [0,-1], [3,2], [3,-1], [-1,3], [4,3]]);
+solution(['Holger Dambeck 3', 'offen, mehrmals'], 240, 280, 60, 120, [[2,2], [0,-2], [0,3], [3,0], [3,3], [-1,3], [2,0]]);
+solution(['Gast237', 'geschlossen, einmal'], 240, 280, 60, 100, [[-1,-1], [4,4], [3/2,-1], [-1,4], [4,-1], [3/2,4], [-1,-1]]);
+solution(['orellino', '              offen, mehrmals'], 240, 340, 60, 125, [[1/2,3/2], [4,5], [0,-3], [0,4], [4,0], [-1,0], [3,2]]);
+solution(['bäumler 1', 'offen, mehrmals          '], 240, 380, 60, 130, [[1/2,2], [3,2], [0,-1], [0,6], [3,-3], [3,5], [1/2,0]]);
+solution(['bäumler 2', 'offen, einmal'], 280, 280, 60, 100, [[3,1], [0,4], [0,-1], [5,4], [1/3,5/3], [7/2,-3/2], [2,3]]);
+// solution(['WasFuerEineWelt', 'geschlossen, mehrmals'], 280, 280, 60, 100, [[0,0], [0,5], [4,1], [0,1], [4,5], [4,0], [1,0]]);
+solution(['WasFuerEineWelt', 'geschlossen, mehrmals', '(ähnlich Dambeck 1, 2)'], 240, 240, 60, 100, [[0,3], [0,-1], [3,2], [0,2], [3,-1], [3,3], [0,3]]);
+solution(['thom3 (Dambeck 1, 2)', 'geschlossen, mehrmals'], 240, 240, 60, 80, [[3,2], [0,2], [0,-1], [4,3], [-1,3], [3,-1], [3,2]]);
+solution(['          spon_8362182 1', '   offen, einmal', '               (ähnlich Dambeck 3)'], 240, 240, 60, 100, [[2,0], [0,2], [0,-2], [5/2,3], [0,3], [3,0], [3,3]]);
+solution(['spon_8362182 2', 'offen, einmal', '(ähnlich orrelino)'], 240, 310, 60, 100, [[1,-1], [4,5], [0,1], [0,4], [4,0], [-1,0], [3,2]]);
+solution(['UliBreimaier', 'offen, einmal '], 240, 300, 60, 90, [[0,-1/2], [0,4], [3,-2], [3,5], [0,-1], [5/2,3/2], [1/2,7/2]]);
+solution(['jcsahnwaldt 1      ', 'offen, einmal        '], 240, 340, 60, 90, [[0,0], [3,6], [3,-2], [-1/2,3/2], [2,4], [2,-1], [0,3]]);
+solution(['jcsahnwaldt 2             ', 'offen, mehrmals               '], 350, 350, 60, 60, [[1/2,0], [7,0], [-1,4], [4,-1], [0,7], [0,0], [3,3]]);
+solution(['jcsahnwaldt 3', 'offen, mehrmals'], 280, 260, 60, 80, [[7/2,5/2], [0,-1], [0,3], [5,3], [1,-1], [1,4], [3,0]]);
 </script>
 </body>
 </html>
