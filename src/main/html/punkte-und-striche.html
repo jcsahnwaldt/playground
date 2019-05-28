@@ -1,38 +1,36 @@
 <html>
 <body>
-<canvas id="foo" width="300" height="200">
+<canvas id="foo" width="240" height="240">
 </canvas>
-
 <script>
-  var v = document.getElementById("foo");
-  var c = v.getContext("2d");
+  const v = document.getElementById("foo");
+  const c = v.getContext("2d");
 
-  c.fillStyle = 'red';
-  c.fillRect(0, 0, v.width, v.height);
+  const path = [[2,1], [0,-1], [0,2], [3,2], [3,-1], [-1,3], [3,3]];
 
-  c.fillStyle = 'green';  
+  c.fillStyle = '#40A0D0';
+  for (let i = 0; i < 4; i++) {
+    for (let j = 0; j < 4; j++) {
+      const x = 60 + 40 * i;
+      const y = 60 + 40 * j;
+      c.beginPath();
+      c.arc(x, y, 10, 0, 2 * Math.PI);
+      c.fill();
+    }
+  }
+
+  c.strokeStyle = 'black';  
+  c.lineWidth = 2.5;
   c.beginPath();
-  c.arc(150, 100, 80, 0, 2 * Math.PI);
-  c.fill();
-
-  c.fillStyle = 'white';
-  c.font = '60px serif';
-  c.textAlign = 'center';
-  c.fillText('JS', 150, 115);
-
-  c.beginPath();
-  c.strokeStyle = 'orange';  
-  c.lineWidth = 5;
-  c.moveTo(10, 110);
-  c.lineTo(50, 150);
+  let first = true;
+  for (let p of path) {
+    const x = 60 + 40 * p[0];
+    const y = 60 + 40 * p[1];
+    if (first) c.moveTo(x, y);
+    else c.lineTo(x, y);
+    first = false;
+  }
   c.stroke();
 </script>
-
-<svg width="300" height="200">
-  <rect width="100%" height="100%" fill="red" />
-  <circle cx="150" cy="100" r="80" fill="green" />
-  <text x="150" y="115" font-size="60" text-anchor="middle" fill="white">SVG</text>
-  <line x1="10" y1="110" x2="50" y2="150" stroke="orange" stroke-width="5"/>
-</svg>
 </body>
 </html>
