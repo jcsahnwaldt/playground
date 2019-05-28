@@ -1,0 +1,38 @@
+<html>
+<body>
+<canvas id="foo" width="300" height="200">
+</canvas>
+
+<script>
+  var v = document.getElementById("foo");
+  var c = v.getContext("2d");
+
+  c.fillStyle = 'red';
+  c.fillRect(0, 0, v.width, v.height);
+
+  c.fillStyle = 'green';  
+  c.beginPath();
+  c.arc(150, 100, 80, 0, 2 * Math.PI);
+  c.fill();
+
+  c.fillStyle = 'white';
+  c.font = '60px serif';
+  c.textAlign = 'center';
+  c.fillText('JS', 150, 115);
+
+  c.beginPath();
+  c.strokeStyle = 'orange';  
+  c.lineWidth = 5;
+  c.moveTo(10, 110);
+  c.lineTo(50, 150);
+  c.stroke();
+</script>
+
+<svg width="300" height="200">
+  <rect width="100%" height="100%" fill="red" />
+  <circle cx="150" cy="100" r="80" fill="green" />
+  <text x="150" y="115" font-size="60" text-anchor="middle" fill="white">SVG</text>
+  <line x1="10" y1="110" x2="50" y2="150" stroke="orange" stroke-width="5"/>
+</svg>
+</body>
+</html>
